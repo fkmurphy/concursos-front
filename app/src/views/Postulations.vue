@@ -1,16 +1,16 @@
 <template>
-    <Navbar />
-    <div></div>
-    <router-view />
+  <h1>Postulations</h1>
+  <PostulationsList />
 </template>
 
 <script>
-import Navbar from './components/Navbar.vue'
+import PostulationsList from '@/components/PostulationsList.vue'
+import '@/api/index.js'
 
 export default {
   name: 'App',
   components: {
-    Navbar
+    PostulationsList
   }
 }
 </script>

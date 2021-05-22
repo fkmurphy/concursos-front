@@ -1,6 +1,32 @@
 <template>
-  <h4>Tailwind</h4>
-  <ul class="divide-y divide-gray-200">
+    <!--<div v-for="(postulation, index) in postulations" :key="index">
+        <hr/>
+        <p>Title {{postulation.title}}</p>
+        <p>Area {{postulation.area}}</p>
+        <p>Orientación {{postulation.orientation}}</p>
+        <p>Departament {{postulation.departament}}</p>
+        <p>Requerimientos {{postulation.requirements}}</p>
+        <p>Position {{postulation.position_category}}</p>
+        <hr />
+    </div>-->
+    <div class="min-h-screen bg-gradient-to-b from-gray-100 to-blue-100 flex justify-center items-center">
+      <div class="bg-white rounded-lg mr-4" v-for="postulation in postulations" :key="postulation.id">
+        <div class="w-96 border-t-8 border-blue-600 rounded-lg flex">
+          <!-- <div class="w-1/3 pt-6 flex justify-center">
+          </div>-->
+          <div class="w-full">
+              <h3 class="font-bold text-blue-700">{{postulation.title}}</h3>
+              <p class="py-4 text-sm text-gray-400">{{postulation.area}}</p>
+          </div>
+        </div>
+
+        <div class="p-4 flex space-x-4">
+          <a href="#" class="w-1/2 px-4 py-3 text-center bg-gray-100 text-blue-400 hover:bg-gray-200 hover:text-black font-bold rounded-lg text-sm">Ver más</a>
+          <a href="#" class="w-1/2 px-4 py-3 text-center bg-blue-100 text-blue rounded-lg hover:bg-black-700 hover:text-white font-bold text-sm">Inscribirse</a>
+        </div>
+      </div>
+    </div>
+  <!--<ul class="divide-y divide-gray-200">
     <li v-for="(postulation, index) in data" :key="index" class="py-4 flex">
       <img class="h-10 w-10 rounded-full" :src="postulation.img" alt="" />
       <div class="ml-3">
@@ -23,35 +49,32 @@
     <div v-else>
         <p>No hay en lista. . </p>
     </div>
-  </div>
+  </div>-->
 </template>
 
 <script>
+import {getPostulations} from '@/api/postulations/getPostulations'
 export default {
-  name: 'PostulationsList',
-  props: {
-    subtitle: String
-  },
-  data() {
-      return {
-        data: [
-            {
-                title: 'Posición para el cargo de...',
-                type: 'lalala',
-                active: false,
-                img: '#',
-                img_alt: 'Alt de la imagen'
-            },
-            {
-                title: 'Posición para el cargo de ayudante ad.',
-                type: 'pepe',
-                active: true,
-                img: '#',
-                img_alt: 'Alt2 de la imagen'
-            }
-        ]
-      }
-  }
+    name: 'PostulationsList',
+    props: {
+    },
+    data() {
+        return {
+            postulations: []
+        }
+    },
+    methods: {
+        async getPostulationsData() {
+            let {
+                data
+            } = await getPostulations()
+            console.log(data.data)
+            this.postulations = data.data
+        }
+    },
+    created() {
+        this.getPostulationsData()
+    }
 }
 </script>
 
@@ -67,9 +90,6 @@ ul {
 li {
   display: inline-block;
   margin: 0 10px;
-}
-a {
-  color: #42b983;
 }
 p.available {
     color: green;
