@@ -1,5 +1,7 @@
 <template>
-  <h1>Postulations</h1>
+  <div class="bg-gradient-to-b from-gray-50 to-gray-100 flex justify-center items-center">
+      <h1>Postulations</h1>
+  </div>
   <PostulationsList />
 </template>
 
