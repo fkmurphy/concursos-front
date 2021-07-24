@@ -8,6 +8,7 @@ import PostulationsListsAdmin from '@/views/admin/postulations/PostulationsLists
 import Register  from  '@/views/admin/users/Register.vue'
 import Login from  '@/views/Login.vue'
 import Admin from  '@/layout/Admin.vue'
+import CategoriesListsAdmin from '@/views/admin/categories/List.vue'
 //import Cats from '@/views/Cats.vue'
 
 const guest = (to, from, next) => {
@@ -63,6 +64,11 @@ const routes = [
                 path: '/admin/postulations',
                 name: 'postulationListAdmin',
                 component: PostulationsListsAdmin
+            },
+            {
+                path: '/admin/categories',
+                name: 'categoriesListAdmin',
+                component: CategoriesListsAdmin
             }
         ]
 
