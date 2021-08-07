@@ -6,10 +6,12 @@ import PostulationsLists from '@/views/postulations/PostulationsLists.vue'//'@/v
 import PostulationsView from '@/views/postulations/PostulationsView.vue'//'@/views/Home.vue'
 import PostulationsListsAdmin from '@/views/admin/postulations/PostulationsLists.vue'
 import Register  from  '@/views/admin/users/Register.vue'
+import GuestRegister  from  '@/views/Register.vue'
 import Login from  '@/views/Login.vue'
 import Admin from  '@/layout/Admin.vue'
 import CategoriesListsAdmin from '@/views/admin/categories/List.vue'
 import ContestsListAdmin from '@/views/admin/contests/ContestList.vue'
+import ContestCreateAdmin from '@/views/admin/contests/ContestCreate.vue'
 import {me} from '@/api/auth/me.js';
 //import Cats from '@/views/Cats.vue'
 
@@ -46,6 +48,11 @@ const routes = [
         name: 'Login',
         beforeEnter: guest,
         component: Login 
+    },
+    {
+        path: '/register',
+        name: 'Register',
+        component: GuestRegister
     },
     {
         path: '/postulations',
@@ -86,7 +93,7 @@ const routes = [
             {
                 path: '/admin/contests/create',
                 name: 'adminContestCreate',
-                component: ContestsListAdmin
+                component: ContestCreateAdmin
             }
         ]
 
