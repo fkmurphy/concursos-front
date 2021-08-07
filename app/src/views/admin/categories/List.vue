@@ -5,14 +5,13 @@
 <script>
 import CrudList from '@/components/CrudList.vue'
 import {list} from '@/api/admin/crud/list.js'
-//import {ref, onBeforeMount} from 'vue';
 
 export default {
     name: 'List',
     components: {
         CrudList
     },
-    setup() { 
+    setup() {
         const columns = {
             code: {
                 type: "string",
@@ -30,9 +29,9 @@ export default {
             });
         };
 
-        return { 
+        return {
             dataFunction,
-            columns 
+            columns
         }
     }
 }
