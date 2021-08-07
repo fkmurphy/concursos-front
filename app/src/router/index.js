@@ -9,18 +9,26 @@ import Register  from  '@/views/admin/users/Register.vue'
 import Login from  '@/views/Login.vue'
 import Admin from  '@/layout/Admin.vue'
 import CategoriesListsAdmin from '@/views/admin/categories/List.vue'
+import ContestsListAdmin from '@/views/admin/contests/ContestList.vue'
+import {me} from '@/api/auth/me.js';
 //import Cats from '@/views/Cats.vue'
 
-const guest = (to, from, next) => {
-  if (!localStorage.getItem("token")) {
-    return next();
-  } else {
-    return next("/");
-  }
+const guest = async (to, from, next) => {
+    if (!localStorage.getItem("token")) {
+        return next();
+    } else {
+        try {
+            await me();
+        } catch (e) {
+            localStorage.setItem('token', undefined);
+            next();
+        }
+        return next("/");
+    }
 };
 
 const auth = (to, from, next) => {
-  if (localStorage.getItem("token")) {
+  if (localStorage.getItem("token") ) {
     return next();
   } else {
     return next("/login");
@@ -69,6 +77,16 @@ const routes = [
                 path: '/admin/categories',
                 name: 'categoriesListAdmin',
                 component: CategoriesListsAdmin
+            },
+            {
+                path: '/admin/contests',
+                name: 'contestListAdmin',
+                component: ContestsListAdmin
+            },
+            {
+                path: '/admin/contests/create',
+                name: 'adminContestCreate',
+                component: ContestsListAdmin
             }
         ]
 
