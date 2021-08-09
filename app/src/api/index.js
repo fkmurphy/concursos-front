@@ -7,7 +7,7 @@ export const API_URL = process.env.VUE_APP_API_HOST;
 
 export const request = axios.create({
     baseURL: API_URL,
-    timeout: 1000,
+    timeout: 10000,
     headers: {
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin' : '*',
