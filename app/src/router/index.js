@@ -29,9 +29,15 @@ const guest = async (to, from, next) => {
     }
 };
 
-const auth = (to, from, next) => {
+const auth = async (to, from, next) => {
   if (localStorage.getItem("token") ) {
-    return next();
+      try {
+          await me();
+          return next();
+      } catch (e) {
+          localStorage.setItem('token', undefined);
+          return next('/login');
+      }
   } else {
     return next("/login");
   }
@@ -93,6 +99,7 @@ const routes = [
             {
                 path: '/admin/contests/create',
                 name: 'adminContestCreate',
+                beforeEnter: auth,
                 component: ContestCreateAdmin
             }
         ]
