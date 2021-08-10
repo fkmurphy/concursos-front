@@ -18,7 +18,7 @@
                       v-model="name"
                       placeholder="Ingrese el nombre"
                   />
-                  <span>{{nameError}}</span>
+                  <span class="text-xs text-red-300">{{nameError}}</span>
                 </div>
                 <div class="md:ml-2">
                   <label class="block text-sm font-bold text-gray-700" for="qty">
@@ -32,6 +32,7 @@
                       v-model="qty"
                       placeholder="Ejemplo: 2"
                   />
+                  <span class="text-xs text-red-300">{{qtyError}}</span>
                 </div>
               </div>
               <div class="mb-4 md:flex md:justify-between">
@@ -46,6 +47,7 @@
                       type="date"
                       v-model="init_date"
                   />
+                  <span class="text-xs text-red-300">{{initDateError}}</span>
                 </div>
                 <div class="md:ml-2">
                   <label class="block text-sm font-bold text-gray-700" for="dateEnd">
@@ -58,6 +60,7 @@
                       type="date"
                       v-model="end_date"
                   />
+                  <span class="text-xs text-red-300">{{endDateError}}</span>
                 </div>
               </div>
               <div class="mb-12 md:justify-between">
@@ -66,11 +69,12 @@
                   </label>
                   <input
                       class="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-                      name="enrrolment_date_end"
+                      name="enrollment_date_end"
                       id="dateEnrrolmentEnd"
                       type="date"
                       v-model="enrollment_date_end"
                   />
+                <span class="text-xs text-red-300">{{enrollmentDateEndError}}</span>
               </div>
               <div class="mb-4 md:flex md:justify-between">
                 <div>
@@ -85,6 +89,7 @@
                   >
                     <option v-for="(option, key) in lists.remuneration_types" :key="key" :value="key" >{{option}}</option>
                   </select>
+                  <span class="text-xs text-red-300">{{remunerationTypeError}}</span>
                 </div>
                 <div>
                   <label class="block text-sm font-bold text-gray-700" for="workingDayTypes">
@@ -98,6 +103,7 @@
                   >
                     <option v-for="(option, key) in lists.working_day_types" :key="key" :value="key">{{option}}</option>
                   </select>
+                  <span class="text-xs text-red-300">{{workingDayTypeError}}</span>
                 </div>
               </div>
               <div class="mb-4 md:flex md:justify-between">
@@ -113,6 +119,7 @@
                   >
                     <option v-for="(option, key) in lists.categories" :key="key" :value="key">{{option}}</option>
                   </select>
+                  <span class="text-xs text-red-300">{{categoryError}}</span>
                 </div>
                 <div>
                   <label class="block text-sm font-bold text-gray-700" for="categoryType">
@@ -126,6 +133,7 @@
                   >
                     <option v-for="(option, key) in lists.category_types" :key="key" :value="key">{{option}}</option>
                   </select>
+                  <span class="text-xs text-red-300">{{categoryTypeError}}</span>
                 </div>
               </div>
               <div class="mb-12 md:justify-between">
@@ -141,6 +149,7 @@
                 >
                   <option v-for="(option, key) in lists.departaments" :key="key" :value="key">{{option}}</option>
                 </select>
+                <span class="text-xs text-red-300">{{departamentError}}</span>
               </div>
               <div class="mb-12 md:justify-between" v-show="departaments !== undefined" >
                 <label class="block text-sm font-bold text-gray-700" for="career">
@@ -155,6 +164,7 @@
                 >
                   <option v-for="(option, key) in lists.careers" :key="key" :value="key">{{option}}</option>
                 </select>
+                <span class="text-xs text-red-300">{{careerError}}</span>
               </div>
               <div class="mb-12 md:justify-between" v-show="careers !== undefined">
                 <label class="block text-sm font-bold text-gray-700" for="course">
@@ -168,6 +178,7 @@
                 >
                   <option v-for="(option, key) in lists.courses" :key="key" :value="key">{{option}}</option>
                 </select>
+                <span class="text-xs text-red-300">{{courseError}}</span>
               </div>
               <!-- button -->
               <div class="mb-6 text-center">
@@ -190,6 +201,7 @@
 <script>
 //import {create} from '@/api/admin/crud/create.js'
 import {list} from '@/api/admin/crud/list.js'
+import {create} from '@/api/admin/crud/create.js'
 import {onBeforeMount, ref} from 'vue';
 import {schema as createValidation } from '@/schemas/contests/create.js';
 import {useField, useForm} from 'vee-validate';
@@ -262,7 +274,15 @@ export default {
         return processResponse(result.data.data);
       });
     }
-    const onSubmit = handleSubmit((values)=> console.log('miraaa pappapapapaa', values));
+    const onSubmit = handleSubmit((values, form) => {
+      create('contests/create', values).then(result=>{
+        console.log('to exito', result)
+        form.resetForm();
+      }).catch(reject => {
+        console.error(reject)
+      });
+
+    });
 
     return {
       getData,
