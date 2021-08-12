@@ -11,6 +11,7 @@ import Login from  '@/views/Login.vue'
 import Admin from  '@/layout/Admin.vue'
 import CategoriesListsAdmin from '@/views/admin/categories/List.vue'
 import ContestsListAdmin from '@/views/admin/contests/ContestList.vue'
+import ContestsPublicList from '@/views/ContestsPublic.vue'
 import ContestCreateAdmin from '@/views/admin/contests/ContestCreate.vue'
 import {me} from '@/api/auth/me.js';
 //import Cats from '@/views/Cats.vue'
@@ -59,6 +60,11 @@ const routes = [
         path: '/register',
         name: 'Register',
         component: GuestRegister
+    },
+    {
+        path: '/public',
+        name: 'ContestsPublicList',
+        component: ContestsPublicList
     },
     {
         path: '/postulations',
