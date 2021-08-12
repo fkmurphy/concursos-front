@@ -1,12 +1,12 @@
 <template>
     <div class=" flex justify-center items-center">
-      <div class="bg-white rounded-lg mr-4" v-for="postulation in postulations" :key="postulation.id">
+      <div class="bg-white rounded-lg mr-4" v-for="contest in contests" :key="contest.id">
         <div class="w-96 border-t-8 border-blue-600 rounded-lg flex">
           <div class="w-full justify-center ">
-            <h3 class="font-bold text-blue-700">{{postulation.name}}</h3>
-              <p class="w-36 md:w-auto py-4 text-sm text-gray-400 text-center">{{postulation.resume}}</p>
+            <h3 class="font-bold text-blue-700">{{contest.name}}</h3>
+              <p class="w-36 md:w-auto py-4 text-sm text-gray-400 text-center">{{contest.resume}}</p>
             <p class="py-4 text-sm text-gray-400">
-              <span class="font-bold">Fin de inscripciones:</span> {{postulation.enrollment_date_end}}
+              <span class="font-bold">Fin de inscripciones:</span> {{contest.enrollment_date_end}}
             </p>
           </div>
         </div>
@@ -29,10 +29,10 @@ export default {
   props: {
   },
   setup() {
-    let postulations = ref([]);
+    let contests = ref([]);
 
     onMounted(async () => {
-      postulations.value = await getPublicContests().then((result) => {
+      contests.value = await getPublicContests().then((result) => {
         let dataResponse = result.data.data;
         dataResponse.map((row) => {
           const resumeLength = 80;
@@ -45,7 +45,7 @@ export default {
     });
 
     return {
-      postulations
+      contests
     };
   }
 }
