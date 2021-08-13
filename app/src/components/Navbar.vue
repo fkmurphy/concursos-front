@@ -96,15 +96,13 @@
 
 <script>
 export default {
-    name: 'Navbar',
-    props: {
-        msg: String
-    },
-    data() {
-        return {
-            profileOpen: false
-        }
-    }
+  name: 'Navbar',
+  props: {
+    msg: String
+  },
+  setup() {
+
+  },
 }
 </script>
 

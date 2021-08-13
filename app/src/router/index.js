@@ -13,35 +13,30 @@ import CategoriesListsAdmin from '@/views/admin/categories/List.vue'
 import ContestsListAdmin from '@/views/admin/contests/ContestList.vue'
 import ContestsPublicList from '@/views/ContestsPublic.vue'
 import ContestCreateAdmin from '@/views/admin/contests/ContestCreate.vue'
-import {me} from '@/api/auth/me.js';
-//import Cats from '@/views/Cats.vue'
+import validToken from "@/api/auth/helpers/validateToken";
 
 const guest = async (to, from, next) => {
-    if (!localStorage.getItem("token")) {
-        return next();
-    } else {
-        try {
-            await me();
-        } catch (e) {
-            localStorage.setItem('token', undefined);
-            next();
-        }
-        return next("/");
+    let token = localStorage.getItem("token");
+    if (token && token.length > 0) {
+        console.log('entre y no se por que')
+       if (!validToken(token))  {
+           localStorage.setItem("token", '')
+           next('/login')
+       }
     }
+    next()
 };
 
 const auth = async (to, from, next) => {
-  if (localStorage.getItem("token") ) {
-      try {
-          await me();
-          return next();
-      } catch (e) {
-          localStorage.setItem('token', undefined);
-          return next('/login');
-      }
-  } else {
-    return next("/login");
-  }
+    let token = localStorage.getItem("token");
+    if (token && token.length > 0) {
+        if (!validToken(token))  {
+            localStorage.setItem("token", '')
+            next('/login')
+        }
+        next()
+    }
+    next('/login')
 };
 
 const routes = [
@@ -90,16 +85,19 @@ const routes = [
             {
                 path: '/admin/postulations',
                 name: 'postulationListAdmin',
+                beforeEnter: auth,
                 component: PostulationsListsAdmin
             },
             {
                 path: '/admin/categories',
                 name: 'categoriesListAdmin',
+                beforeEnter: auth,
                 component: CategoriesListsAdmin
             },
             {
                 path: '/admin/contests',
                 name: 'contestListAdmin',
+                beforeEnter: auth,
                 component: ContestsListAdmin
             },
             {
