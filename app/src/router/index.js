@@ -13,12 +13,13 @@ import CategoriesListsAdmin from '@/views/admin/categories/List.vue'
 import ContestsListAdmin from '@/views/admin/contests/ContestList.vue'
 import ContestsPublicList from '@/views/ContestsPublic.vue'
 import ContestCreateAdmin from '@/views/admin/contests/ContestCreate.vue'
+//import PostulateForm from '@/views/PostulateForm.vue';
+import GoToPostulate from '@/views/GoToPostulate.vue';
 import validToken from "@/api/auth/helpers/validateToken";
 
 const guest = async (to, from, next) => {
     let token = localStorage.getItem("token");
     if (token && token.length > 0) {
-        console.log('entre y no se por que')
        if (!validToken(token))  {
            localStorage.setItem("token", '')
            next('/login')
@@ -60,6 +61,27 @@ const routes = [
         path: '/public',
         name: 'ContestsPublicList',
         component: ContestsPublicList
+    },
+    {
+        path: '/postulate/:contestId',
+        name: 'PostulateToContest',
+        beforeEnter: (to, from, next) => {
+            let token = localStorage.getItem("token");
+            if (token && token.length > 0) {
+                if (!validToken(token)) {
+                    localStorage.setItem("token", '');
+                    localStorage.setItem("postulateToContest", to.params.contestId);
+                    next('/register');
+                }
+                next()
+            }
+
+            localStorage.setItem("postulateToContest", to.params.contestId);
+            next('/register');
+
+        },
+        component: GoToPostulate,
+        props: true,
     },
     {
         path: '/postulations',

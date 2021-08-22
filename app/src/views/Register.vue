@@ -11,7 +11,7 @@
         <!-- Col -->
         <div class="w-full lg:w-7/12 bg-white p-5 rounded-lg lg:rounded-l-none">
           <h3 class="pt-4 text-2xl text-center">Registrarse</h3>
-          <form class="px-8 pt-6 pb-8 mb-4 bg-white rounded">
+          <form class="px-8 pt-6 pb-8 mb-4 bg-white rounded" @submit="submit">
             <div class="mb-4 md:flex md:justify-between">
               <div class="mb-4 md:mr-2 md:mb-0">
                 <label class="block mb-2 text-sm font-bold text-gray-700" for="firstName">
@@ -22,7 +22,9 @@
                     id="firstName"
                     type="text"
                     placeholder="Nombre"
+                    v-model="firstName"
                 />
+                <span class="text-xs text-red-300">{{firstNameError}}</span>
               </div>
               <div class="md:ml-2">
                 <label class="block mb-2 text-sm font-bold text-gray-700" for="lastName">
@@ -33,19 +35,38 @@
                     id="lastName"
                     type="text"
                     placeholder="Apellido"
+                    v-model="lastName"
                 />
+                <span class="text-xs text-red-300">{{lastNameError}}</span>
               </div>
+            </div>
+            <div class="mb-4">
+              <label class="block mb-2 text-sm font-bold text-gray-700" for="cuil">
+                CUIL
+              </label>
+              <input
+                    class="w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                    id="cuil"
+                    autocomplete="username"
+                    type="text"
+                    placeholder="CUIL"
+                    v-model="cuil"
+              />
+                <span class="text-xs text-red-300">{{cuilError}}</span>
             </div>
             <div class="mb-4">
               <label class="block mb-2 text-sm font-bold text-gray-700" for="email">
                 Email
               </label>
-              <input
-                  class="w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-                  id="email"
-                  type="email"
-                  placeholder="Email"
-              />
+                <input
+                      class="w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                      id="email"
+                      autocomplete="email"
+                      type="email"
+                      placeholder="Email"
+                      v-model="contactEmail"
+                />
+                <span class="text-xs text-red-300">{{contactEmailError}}</span>
             </div>
             <div class="mb-4 md:flex md:justify-between">
               <div class="mb-4 md:mr-2 md:mb-0">
@@ -57,7 +78,10 @@
                     id="password"
                     type="password"
                     placeholder="******************"
+                    v-model="password"
+                    autocomplete="new-password"
                 />
+                <span class="text-xs text-red-300">{{passwordError}}</span>
                 <!--<p class="text-xs italic text-red-500">Contraseña inc....</p>-->
               </div>
               <div class="md:ml-2">
@@ -69,17 +93,23 @@
                     id="c_password"
                     type="password"
                     placeholder="******************"
+                    v-model="passwordConfirm"
+                    autocomplete="new-password"
+                    name="passwordConfirm"
                 />
+                <span class="text-xs text-red-300">{{passwordConfirmError}}</span>
               </div>
             </div>
             <div class="mb-6 text-center">
               <button
                   class="w-full px-4 py-2 font-bold text-white bg-blue-500 rounded-full hover:bg-blue-700 focus:outline-none focus:shadow-outline"
-                  type="button"
+                  type="submit"
               >
                Registrar
               </button>
+              <span>{{errors}}</span>
             </div>
+          </form>
             <hr class="mb-6 border-t" />
             <div class="text-center">
               <a
@@ -97,7 +127,6 @@
                 Ya tiene una cuenta? Loguear!
               </a>
             </div>
-          </form>
         </div>
       </div>
     </div>
@@ -106,82 +135,91 @@
 
 <script>
 import { useForm, useField } from 'vee-validate';
-import { login } from '@/api/auth/login.js'
 import { useRouter } from 'vue-router';
+import { personRegister } from '@/api/personRegister.js'
+import { schema } from '@/schemas/users/register.js'
 
 export default {
     setup() {
         const router = useRouter();
 
-        const schema = {
-            uid(value) {
-                if (value === undefined || value.length === 0) {
-                    return "Ingrese el usuario";
-                }
+        //const schema = {
+        //    uid(value) {
+        //        if (value === undefined || value.length === 0) {
+        //            return "Ingrese el usuario";
+        //        }
 
-                if (typeof value !== "string") {
-                    return "Ingrese su usario"
-                }
-                return true;
-            },
-            password(value) {
-                if (value === undefined || value.length === 0) {
-                    return "Ingrese la clave";
-                }
-                return true;
-            }
-        };
+        //        if (typeof value !== "string") {
+        //            return "Ingrese su usario"
+        //        }
+        //        return true;
+        //    },
+        //    password(value) {
+        //        if (value === undefined || value.length === 0) {
+        //            return "Ingrese la clave";
+        //        }
+        //        return true;
+        //    }
+        //};
 
         const { meta, handleSubmit, errors } = useForm({
             validationSchema: schema,
             initialValues: {
-                uid: "",
+                cuil: "",
                 password:"",
             },
             initialErrors: {
-                uidError: 'This email is already taken',
+                //uidError: 'This email is already taken',
                 passwordError: 'The password is too short',
             },
         });
 
         const submit = handleSubmit(async (values, actions) => {
-            login(values).then((response) => {
-                console.log(response)
-                localStorage.token = response.data.access_token;
-                router.push({ name: "Home" });
-            }, () => {
-                //actions.setFieldError('result', "EROR");
-                actions.setErrors({
-                    result: "El usuario o clave no es válida."
-                })
+            personRegister(values).then( result => {
+                console.log(result);
+                actions.resetForm();
+                let redirect = localStorage.getItem('postulateToContest');
+                if (redirect) {
+                    localStorage.setItem('redirect', JSON.stringify({name: "PostulateToContest", params: { contestId : redirect }}));
+                    localStorage.removeItem('postulateToContest');
+                }
+                router.push({ name: "Login" });
+            }).catch( result => {
+                actions.setFieldError('cuil', 'Verifique si ya existe.')
+                console.log(errors)
+                console.log('ERRRORRORORRORORORORORROROROR', result.message)
             });
         });
 
-        const {
-            value: uid, 
-            errorMessage: uidError
-        } = useField('uid');
-        
         const { 
             value: password, 
             errorMessage: passwordError 
         } = useField('password');
 
-        /*async (dataForm) => {
-            login(dataForm).then((response) => {
-                console.log(response)
-                localStorage.token = response.data.access_token;
-                this.$router.push({ name: "Home" });
-            });
-        }*/
+        const { 
+            value: passwordConfirm, 
+            errorMessage: passwordConfirmError 
+        } = useField('passwordConfirm');
+
+        const {value: firstName, errorMessage: firstNameError } = useField('first_name');
+        const {value: lastName, errorMessage: lastNameError } = useField('last_name');
+        const {value: contactEmail, errorMessage: contactEmailError} =useField('contact_email');
+        const {value: cuil, errorMessage: cuilError} =useField('cuil');
 
         return {
             meta,
             submit,
-            uid,
-            uidError,
             password,
             passwordError,
+            passwordConfirm,
+            passwordConfirmError,
+            firstName,
+            firstNameError,
+            lastName,
+            lastNameError,
+            cuil, cuilError,
+            contactEmail,
+            contactEmailError,
             errors
         }
     }

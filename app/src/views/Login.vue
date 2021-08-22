@@ -85,7 +85,14 @@ export default {
             login(values).then((response) => {
                 console.log(response)
                 localStorage.token = response.data.access_token;
-                router.push({ name: "Home" });
+                let redirect = localStorage.getItem('redirect');
+                if (redirect) {
+                    localStorage.removeItem('redirect')
+                    router.push(JSON.parse(redirect));
+                } else {
+                    router.push({ name: "Home" });
+
+                }
             }, () => {
                 //actions.setFieldError('result', "EROR");
                 actions.setErrors({
