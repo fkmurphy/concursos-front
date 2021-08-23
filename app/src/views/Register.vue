@@ -180,7 +180,7 @@ export default {
                 actions.resetForm();
                 let redirect = localStorage.getItem('postulateToContest');
                 if (redirect) {
-                    localStorage.setItem('redirect', JSON.stringify({name: "PostulateToContest", params: { contestId : redirect }}));
+                    localStorage.setItem('redirect', JSON.stringify({name: "PostulateToContest", params: { contestCode : redirect }}));
                     localStorage.removeItem('postulateToContest');
                 }
                 router.push({ name: "Login" });

@@ -63,20 +63,20 @@ const routes = [
         component: ContestsPublicList
     },
     {
-        path: '/postulate/:contestId',
+        path: '/postulate/:contestCode',
         name: 'PostulateToContest',
         beforeEnter: (to, from, next) => {
             let token = localStorage.getItem("token");
             if (token && token.length > 0) {
                 if (!validToken(token)) {
                     localStorage.setItem("token", '');
-                    localStorage.setItem("postulateToContest", to.params.contestId);
+                    localStorage.setItem("postulateToContest", to.params.contestCode);
                     next('/register');
                 }
                 next()
             }
 
-            localStorage.setItem("postulateToContest", to.params.contestId);
+            localStorage.setItem("postulateToContest", to.params.contestCode);
             next('/register');
 
         },
