@@ -106,8 +106,7 @@ export default {
         onBeforeMount( async () => {
             let response = await viewContest(route.params.contestCode).then( response => {
                 return response.data.data
-            }).catch( response => {
-                console.log("RespuestA ", response)
+            }).catch( () => {
                 return {};
             })
             name.value = response?.name
@@ -124,7 +123,6 @@ export default {
             postulate(route.params.contestCode).then(response => {
                 let confirm = response.data;
 
-                console.log("success",confirm);
                 if (confirm?.status === true) {
                     messageSuccess.value = confirm?.message
                 } else {
@@ -135,7 +133,6 @@ export default {
             }).catch(error => {
                 let apiError = error.response?.data
 
-                console.log('error api', apiError?.message)
                 if (apiError) {
                     actions.setErrors({"apiError": apiError.message});
                 } else {
