@@ -1,22 +1,26 @@
 <template>
-    <div class=" flex justify-center items-center">
-      <div class="bg-white rounded-lg mr-4" v-for="contest in contests" :key="contest.id">
-        <div class="w-96 border-t-8 border-blue-600 rounded-lg flex">
-          <div class="w-full justify-center ">
-            <h3 class="font-bold text-blue-700">{{contest.name}}</h3>
-              <p class="w-36 md:w-auto py-4 text-sm text-gray-400 text-center">{{contest.resume}}</p>
-            <p class="py-4 text-sm text-gray-400">
-              <span class="font-bold">Fin de inscripciones:</span> {{contest.enrollment_date_end}}
-            </p>
+<div class="container mx-auto p-6">
+    <div class=" flex justify-center items-stretch -mx-4">
+      <div class="flex-1 p-4" v-for="contest in contests" :key="contest.id">
+        <div class="block bg-white rounded-lg mr-4 h-full">
+          <div class="w-96 border-t-8 border-blue-600 rounded-lg flex">
+            <div class="w-full justify-center ">
+              <h3 class="font-bold text-blue-700">{{contest.name}}</h3>
+              <p class="w-36 md:w-auto py-4 text-sm text-gray-400 text-center">{{contest.resume.length > 0 ? contest.resume : "S/resumen"}}</p>
+              <p class="py-4 text-sm text-gray-400">
+                <span class="font-bold">Fin de inscripciones:</span> {{contest.enrollment_date_end}}
+              </p>
+            </div>
           </div>
-        </div>
 
-        <div class="p-4 flex space-x-4">
-          <a href="#" class="w-1/2 px-4 py-3 text-center bg-gray-100 text-blue-400 hover:bg-gray-200 hover:text-black font-bold rounded-lg text-sm">Ver más</a>
-          <a :href="`postulate/${contest.code}`" class="w-1/2 px-4 py-3 text-center bg-blue-100 text-blue rounded-lg hover:bg-black-700 hover:text-white font-bold text-sm">Inscribirse</a>
+          <div class="p-4 flex space-x-4">
+            <a href="#" class="w-1/2 px-4 py-3 text-center bg-gray-100 text-blue-400 hover:bg-gray-200 hover:text-black font-bold rounded-lg text-sm">Ver más</a>
+            <a :href="`postulate/${contest.code}`" class="w-1/2 px-4 py-3 text-center bg-blue-100 text-blue rounded-lg hover:bg-black-700 hover:text-white font-bold text-sm">Inscribirse</a>
+          </div>
         </div>
       </div>
     </div>
+</div>
 </template>
 
 <script>

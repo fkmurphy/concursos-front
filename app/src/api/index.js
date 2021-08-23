@@ -14,8 +14,25 @@ export const request = axios.create({
         //'Access-Control-Allow-Methods': 'POST, GET',
         'Access-Control-Allow-Headers':'*',
         'cache-control': 'no-cache'
-    }
+    },
 })
+
+request.interceptors.request.use((request) => {
+    // todo insert token if exist
+    return request;
+}, (error) => {
+    return Promise.reject(error);
+});
+
+request.interceptors.response.use((response) => {
+
+    if(response.status === 401) {
+        window.location = "/login";
+    }
+    return response;
+}, (error) => {
+    return Promise.reject(error);
+});
 //new FetchRequest({
 //  prefix: `${CONFIG.API_HOST}/api`,
 //  headers: {

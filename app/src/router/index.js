@@ -21,7 +21,7 @@ const guest = async (to, from, next) => {
     let token = localStorage.getItem("token");
     if (token && token.length > 0) {
        if (!validToken(token))  {
-           localStorage.setItem("token", '')
+           localStorage.removeItem("token")
            next('/login')
        }
     }
@@ -32,7 +32,7 @@ const auth = async (to, from, next) => {
     let token = localStorage.getItem("token");
     if (token && token.length > 0) {
         if (!validToken(token))  {
-            localStorage.setItem("token", '')
+            localStorage.removeItem("token")
             next('/login')
         }
         next()
