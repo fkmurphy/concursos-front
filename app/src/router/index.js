@@ -7,6 +7,7 @@ import PostulationsView from '@/views/postulations/PostulationsView.vue'//'@/vie
 import PostulationsListsAdmin from '@/views/admin/postulations/PostulationsLists.vue'
 import Register  from  '@/views/admin/users/Register.vue'
 import GuestRegister  from  '@/views/Register.vue'
+import ProfileForm from  '@/views/ProfileForm.vue'
 import Login from  '@/views/Login.vue'
 import Admin from  '@/layout/Admin.vue'
 import CategoriesListsAdmin from '@/views/admin/categories/List.vue'
@@ -56,6 +57,11 @@ const routes = [
         path: '/register',
         name: 'Register',
         component: GuestRegister
+    },
+    {
+        path: '/profile',
+        name: 'Profile',
+        component: ProfileForm
     },
     {
         path: '/public',
