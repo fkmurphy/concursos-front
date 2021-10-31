@@ -1,10 +1,10 @@
 <template>
 <div class="container mx-auto p-6">
-    <div class=" flex justify-center items-stretch -mx-4">
-      <div class="flex-1 p-4" v-for="contest in contests" :key="contest.id">
-        <div class="block bg-white rounded-lg mr-4 h-full">
-          <div class="w-96 border-t-8 border-blue-600 rounded-lg flex">
-            <div class="w-full justify-center ">
+    <div class="flex flex-wrap justify-center items-stretch -mx-4">
+      <div class="p-4" v-for="contest in contests" :key="contest.id">
+        <div class="flex-none md:flex-1 bg-white rounded-lg mr-4 h-full">
+          <div class="w-80 border-t-8 border-blue-600 rounded-lg">
+            <div class="w-full justify-center">
               <h3 class="font-bold text-blue-700">{{contest.name}}</h3>
               <p class="w-36 md:w-auto py-4 text-sm text-gray-400 text-center">{{contest.resume.length > 0 ? contest.resume : "S/resumen"}}</p>
               <p class="py-4 text-sm text-gray-400">
