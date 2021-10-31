@@ -1,12 +1,11 @@
 <template>
   <div class="overflow-x-auto">
-    <div class="min-w-screen min-h-screen bg-gray-100 flex items-center justify-center bg-gray-100 font-sans overflow-hidden">
-      <div class="w-full lg:w-5/6">
-        <div class="flex bg-white shadow-md rounded my-6 justify-center">
-          <div class="w-full  lg:w-8/12 bg-white p-5 rounded-lg lg:rounded-l-none">
+    <div class="flex min-w-screen min-h-screen bg-gray-100 items-center justify-center bg-gray-100 font-sans overflow-hidden">
+        <div class="flex-auto mr-4 ml-4 bg-white shadow-md rounded justify-center">
+          <div class="w-full bg-white p-5 rounded-lg lg:rounded-l-none">
             <!-- title -->
             <h3 class="pt-4 text-2xl text-center">Inscripción para {{name}}</h3>
-            <form class="px-8 pt-6 pb-8 mb-4 bg-white rounded" @submit="acceptPostulation">
+            <form class="w-full px-8 pt-6 pb-8 mb-4 bg-white rounded" @submit="acceptPostulation">
               <div class="mb-5 md:justify-between md:flex">
                 <div class="mb-4 md:w-1/2 md:mr-2 md:mb-0">
                   <label class="block text-sm font-bold text-gray-700" for="category">Categoría</label>
@@ -75,7 +74,6 @@
               <hr class="mb-6 border-t" />
             </form>
           </div>
-        </div>
       </div>
     </div>
   </div>
