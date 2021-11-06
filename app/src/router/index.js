@@ -12,6 +12,7 @@ import Login from  '@/views/Login.vue'
 import Admin from  '@/layout/Admin.vue'
 import CategoriesListsAdmin from '@/views/admin/categories/List.vue'
 import ContestsListAdmin from '@/views/admin/contests/ContestList.vue'
+import ViewContest from '@/views/contests/View.vue'
 import ContestsPublicList from '@/views/ContestsPublic.vue'
 import ContestCreateAdmin from '@/views/admin/contests/ContestCreate.vue'
 //import PostulateForm from '@/views/PostulateForm.vue';
@@ -67,6 +68,26 @@ const routes = [
         path: '/public',
         name: 'ContestsPublicList',
         component: ContestsPublicList
+    },
+    {
+        path: '/contest/:contestCode',
+        name: 'ViewContest',
+        //beforeEnter: (to, from, next) => {
+        //    let token = localStorage.getItem("token");
+        //    if (token && token.length > 0) {
+        //        if (!validToken(token)) {
+        //            localStorage.setItem("token", '');
+        //            localStorage.setItem("postulateToContest", to.params.contestCode);
+        //            next('/register');
+        //        }
+        //        next()
+        //    }
+
+        //    localStorage.setItem("postulateToContest", to.params.contestCode);
+        //    next('/register');
+
+        //},
+        component: ViewContest,
     },
     {
         path: '/postulate/:contestCode',

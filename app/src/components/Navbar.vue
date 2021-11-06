@@ -55,10 +55,11 @@
         <!-- Profile dropdown -->
         <div class="ml-3 relative">
           <div>
-              <button class="text-gray-400" @click="showProfileClick()" href="#">{{name}}</button>
+              <button v-if="showProfile" class="text-gray-400" @click="showProfileClick()" href="#">{{name}}</button>
+              <router-link v-else to="/login" class="text-gray-400 font-medium" aria-current="page">Ingresar</router-link>
           </div>
 
-          <div v-show="showProfile == true" class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
+          <div v-show="showProfile" class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
             <!-- Active: "bg-gray-100", Not Active: "" -->
             <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-0">Editar perfil</a>
             <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-2">Salir</a>
@@ -82,7 +83,7 @@
 
 <script>
 import { onMounted, ref } from 'vue';
-import {me} from '@/api/auth/me';
+import { me } from '@/api/auth/me';
 
 export default {
     name: 'Navbar',
@@ -98,7 +99,7 @@ export default {
         onMounted(async () => {
           name.value = await me().then((result) => {
               return result.data.uid
-          });
+          }).catch(e => { console.log('error', e)});
         });
 
         return { showProfile, showProfileClick, name };

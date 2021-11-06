@@ -14,7 +14,7 @@
           </div>
 
           <div class="p-4 flex space-x-4">
-            <a href="#" class="w-1/2 px-4 py-3 text-center bg-gray-100 text-blue-400 hover:bg-gray-200 hover:text-black font-bold rounded-lg text-sm">Ver más</a>
+              <a :href="`contest/${contest.code}`" class="w-1/2 px-4 py-3 text-center bg-gray-100 text-blue-400 hover:bg-gray-200 hover:text-black font-bold rounded-lg text-sm">Ver más</a>
             <a :href="`postulate/${contest.code}`" class="w-1/2 px-4 py-3 text-center bg-blue-100 text-blue rounded-lg hover:bg-black-700 hover:text-white font-bold text-sm">Inscribirse</a>
           </div>
         </div>
