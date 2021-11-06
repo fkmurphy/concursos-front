@@ -46,7 +46,6 @@ export default {
         });
         return dataResponse;
       });
-      console.log(contests)
     });
 
     return {

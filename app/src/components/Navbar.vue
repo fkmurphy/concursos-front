@@ -55,7 +55,7 @@
         <!-- Profile dropdown -->
         <div class="ml-3 relative">
           <div>
-              <button class="text-gray-400" @click="showProfileClick()" href="#">Nombre</button>
+              <button class="text-gray-400" @click="showProfileClick()" href="#">{{name}}</button>
           </div>
 
           <div v-show="showProfile == true" class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
@@ -81,7 +81,9 @@
 </template>
 
 <script>
-import {ref} from 'vue';
+import { onMounted, ref } from 'vue';
+import {me} from '@/api/auth/me';
+
 export default {
     name: 'Navbar',
     props: {
@@ -92,8 +94,14 @@ export default {
         let showProfileClick = () => {
             showProfile.value = !showProfile.value;
         }
+        let name = ref('');
+        onMounted(async () => {
+          name.value = await me().then((result) => {
+              return result.data.uid
+          });
+        });
 
-        return { showProfile, showProfileClick };
+        return { showProfile, showProfileClick, name };
     }
 }
 </script>
